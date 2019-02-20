@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
+// UNIX command created to return a list of a given number's factors using fork()
 void factor_this(long long n) {
     int nn = n/2;
     for (int i = 0; i < 2; i++) {
