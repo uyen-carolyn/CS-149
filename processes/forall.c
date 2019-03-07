@@ -6,6 +6,10 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <errno.h>
+// program that runs a command with multiple arguments and putting the results of each 
+// argument into its own .out file (i.e: 1.out, 2.out, ... n.out)
+// results include whether the program executed, its output, and its exit code
+// will also respond to ^C and ^\ using sigaction()
 
 pid_t cPID; // help from Jefferson Ly
 
@@ -15,7 +19,9 @@ static void handler(int sig, siginfo_t *si, void *ignore) {
         printf("Signalling %d\n", cPID); 
     }
     else if(sig == SIGQUIT) {
-        printf("Exiting due to quit signal"); 
+        printf("Signalling %d\n", pPID); 
+        printf("Exiting due to quit signal\n"); 
+        exit(0); 
     }
 //    kill(wpid,SIGINT);
 }
@@ -34,6 +40,10 @@ int main(int argc, char **argv) {
         perror("sigaction SIGINT"); 
         exit(errno); 
     }
+   else if(sigaction(SIGQUIT, &sa, NULL)) {
+        perror("sigaction SIGQUIT"); 
+        exit(errno);
+    } 
 // props to dudeman for helping me set this up.  
     else {
         for(int i = 2; i < argc; i++) {
