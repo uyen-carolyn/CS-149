@@ -12,7 +12,7 @@
 // will also respond to ^C and ^\ using sigaction()
 
 pid_t cPID; // help from Jefferson Ly
-
+pid_t pPID; 
 //sigaction code from lecture video 3-4-19
 static void handler(int sig, siginfo_t *si, void *ignore) {
     if (sig == SIGINT) {
@@ -69,6 +69,7 @@ int main(int argc, char **argv) {
             }
         
             else {
+                pPID = forkThis; 
             // from discussion about do while bug
                 do {
                     wpid = wait(&status);
